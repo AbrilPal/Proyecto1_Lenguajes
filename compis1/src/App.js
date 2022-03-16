@@ -4,8 +4,7 @@ import React, { useState } from 'react';
 import Stack from '@mui/material/Stack';
 
 function App() {
-  const [accion, setAccion] = useState(0);
-  if (accion === 0){
+  const [accion, setAccion] = useState(null);
     return(
       <div className="App">
         <h1>Bienvenido por favor escoge que quieres realizar primero</h1>
@@ -21,16 +20,19 @@ function App() {
         <br></br>
         <br></br>
         <Stack direction="row" spacing={2} style={{width: "300px", justifyContent: "center", marginLeft: "600px"}}>
-          <Button variant="outlined" color="secondary">Opción 1</Button>
-          <Button variant="outlined" color="secondary">Opción 2</Button>
+          <Button variant="outlined" color="secondary" onClick={() => setAccion(true)}>Opción 1</Button>
+          <Button variant="outlined" color="secondary" onClick={() => setAccion(false)}>Opción 2</Button>
         </Stack>
+        {accion ? 
+        <div style={{width: "100%", backgroundColor: "pink", height: "600px"}}>
+          <h3>opcion 1</h3>
+        </div>
+        :
+        <div style={{width: "100%", backgroundColor: "pink", height: "600px"}}>
+          <h3>opcion 2</h3>
+        </div>}
       </div>
     )
-  }
-  return (
-    <>
-    </>
-  );
 }
 
 export default App;
