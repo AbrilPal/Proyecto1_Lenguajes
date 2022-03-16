@@ -7,7 +7,6 @@ export interface NodeGraphProps {
 }
  
 export interface NodeGraphState {
-    
 }
  
 class NodeGraph extends React.Component<NodeGraphProps, NodeGraphState> {
@@ -21,7 +20,7 @@ class NodeGraph extends React.Component<NodeGraphProps, NodeGraphState> {
 
         return (
             <Graph
-                id="graph-id" // id is mandatory
+                id="graph-id"
                 data={data}
                 config={{
                     directed: true,
