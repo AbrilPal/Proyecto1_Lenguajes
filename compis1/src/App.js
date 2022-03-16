@@ -2,6 +2,7 @@ import './App.css';
 import Button from '@mui/material/Button';
 import React, { useState } from 'react';
 import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
 
 function App() {
   const [accion, setAccion] = useState(null);
@@ -23,14 +24,27 @@ function App() {
           <Button variant="outlined" color="secondary" onClick={() => setAccion(true)}>Opción 1</Button>
           <Button variant="outlined" color="secondary" onClick={() => setAccion(false)}>Opción 2</Button>
         </Stack>
-        {accion ? 
-        <div style={{width: "100%", backgroundColor: "pink", height: "600px"}}>
-          <h3>opcion 1</h3>
+        <div style={{width: "100%", height: "600px"}}>
+          {accion ? 
+            <>
+              <h4>Opcion 1</h4>
+              <TextField
+                hiddenLabel
+                label="Expresión regular"
+                color='secondary'
+                id="filled-hidden-label-small"
+                variant="filled"
+              />
+              <br></br>
+              <br></br>
+              <Button variant='contained' color='primary'>AFN</Button>
+            </>
+          :
+            <>
+              <h3>opcion 2</h3>
+            </>
+          }
         </div>
-        :
-        <div style={{width: "100%", backgroundColor: "pink", height: "600px"}}>
-          <h3>opcion 2</h3>
-        </div>}
       </div>
     )
 }
