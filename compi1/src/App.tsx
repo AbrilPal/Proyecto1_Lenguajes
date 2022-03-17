@@ -6,11 +6,36 @@ import TextField from '@mui/material/TextField';
 import {re_to_tree} from "./re_to_tree"
 import { convert_matrix_to_d3_graph, tree_to_afn } from './tree_to_afn';
 import NodeGraph from './NodeGraph';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+import { TransitionProps } from '@mui/material/transitions';
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 function App() {
   const [accion, setAccion] = useState(null || Boolean);
   const [afdgrafica, setAfdgrafica] = useState(Object);
   const [inputEvalu, setInputEvalu] = useState(null || Boolean);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const convertRegularExpressionToTree = () => {
     let valor_input = (document.getElementById("input1") as HTMLInputElement).value
@@ -81,7 +106,24 @@ function App() {
                 />
                 <br></br>
                 <br></br>
-                <Button variant='contained' color='primary' onClick={() => {alert("hola")}}>Evaluar</Button>
+                <Button variant='contained' color='primary' onClick={() => handleClickOpen()}>Evaluar</Button>
+                <Dialog
+                  open={open}
+                  TransitionComponent={Transition}
+                  keepMounted
+                  onClose={handleClose}
+                  aria-describedby="alert-dialog-slide-description"
+                >
+                  <DialogTitle style={{color:"green"}}>{"Si"}</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText>
+                      La cadena {<em><strong>{(document.getElementById("input2") as HTMLInputElement).value}</strong></em>} si pertenece a L({<em><strong>{(document.getElementById("input1") as HTMLInputElement).value}</strong></em>})
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleClose} color='secondary' variant='outlined'>CERRAR</Button>
+                  </DialogActions>
+                </Dialog>
               </>
               }
             </>
