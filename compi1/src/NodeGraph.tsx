@@ -25,6 +25,7 @@ class NodeGraph extends React.Component<NodeGraphProps, NodeGraphState> {
                 config={{
                     directed: true,
                     height: 300,
+                    width: 300,
                     node: {
                       labelProperty: "id",
                       renderLabel: false,
@@ -39,8 +40,7 @@ class NodeGraph extends React.Component<NodeGraphProps, NodeGraphState> {
                     },
                     link: {
                         renderLabel: true,
-                        fontSize: 14,
-                        type: "CURVE_SMOOTH",
+                        fontSize: 14
                     }
                   }}
             />

@@ -108,7 +108,7 @@ function App() {
           <Button variant="outlined" color="secondary" onClick={() => setAccion(true)}>Opción 1</Button>
           <Button variant="outlined" color="secondary" onClick={() => setAccion(false)}>Opción 2</Button>
         </Stack>
-        <div style={{width: "100%", height: "600px"}}>
+        <div style={{width: "100%", height: "600px", marginBottom: "100px"}}>
           {accion ? 
             <>
               <h4>Opcion 1</h4>
