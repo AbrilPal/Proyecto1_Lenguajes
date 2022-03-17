@@ -117,7 +117,7 @@ function App() {
                   <DialogTitle style={{color:"green"}}>{"Si"}</DialogTitle>
                   <DialogContent>
                     <DialogContentText>
-                      La cadena {<em><strong>{(document.getElementById("input2") as HTMLInputElement).value}</strong></em>} si pertenece a L({<em><strong>{(document.getElementById("input1") as HTMLInputElement).value}</strong></em>})
+                      La cadena {<em><strong>{(document.getElementById("input2") as HTMLInputElement).value}</strong></em>} si pertenece a {<em><strong>L(</strong></em>}{<em><strong>{(document.getElementById("input1") as HTMLInputElement).value + ")"}</strong></em>}
                     </DialogContentText>
                   </DialogContent>
                   <DialogActions>
