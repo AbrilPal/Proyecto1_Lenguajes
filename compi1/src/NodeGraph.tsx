@@ -1,3 +1,4 @@
+import { pink } from '@mui/material/colors';
 import * as React from 'react';
 import { Graph } from "react-d3-graph";
 import './main.css'
@@ -40,7 +41,8 @@ class NodeGraph extends React.Component<NodeGraphProps, NodeGraphState> {
                     },
                     link: {
                         renderLabel: true,
-                        fontSize: 14
+                        fontSize: 14,
+                        color: "purple",
                     }
                   }}
             />
