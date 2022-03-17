@@ -13,6 +13,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
+import { afn_to_afd, convertAFDToD3Graph } from './afn_to_afd';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -25,9 +26,13 @@ const Transition = React.forwardRef(function Transition(
 
 function App() {
   const [accion, setAccion] = useState(null || Boolean);
+  const [afngrafica, setAfngrafica] = useState(Object);
   const [afdgrafica, setAfdgrafica] = useState(Object);
   const [inputEvalu, setInputEvalu] = useState(null || Boolean);
+  const [toFND, setToFND] = useState(null || Boolean)
+  const [grafica, setGrafica] = useState(Number)
   const [open, setOpen] = React.useState(false);
+  const [arbol, setArbol] = React.useState(Object)
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -38,13 +43,42 @@ function App() {
   };
 
   const convertRegularExpressionToTree = () => {
+    setInputEvalu(false)
     let valor_input = (document.getElementById("input1") as HTMLInputElement).value
     const tree = re_to_tree(valor_input);
-    console.log(tree)
+    setArbol(tree)
     const afn = tree_to_afn(tree, [[], []], 0, 1);
     const d3GraphData = convert_matrix_to_d3_graph(afn);
-    setAfdgrafica(d3GraphData)
-    setInputEvalu(true)
+    setAfngrafica(d3GraphData)
+    setToFND(true)
+    setGrafica(0)
+  }
+
+  const convertAFNToAFD = () => {
+      const afd = afn_to_afd(arbol);
+      const d3GraphData = convertAFDToD3Graph(arbol);
+      setAfdgrafica(d3GraphData)
+      setInputEvalu(true)
+      setGrafica(1)
+  }
+
+  const buildShowGraph = () => {
+    if (grafica === 0) { // Hay arbol sintactico
+      return (
+        <div>
+          <h6>AFN</h6>
+          <NodeGraph data={afngrafica}/>
+        </div>
+      );
+    } else if (grafica === 1) { // Hay AFN
+      return (
+        <div>
+          <h6>AFD</h6>
+          <NodeGraph data={afdgrafica}/>
+        </div>
+      );
+    } 
+    return (<div></div>);
   }
     return(
       <div className="App">
@@ -59,7 +93,7 @@ function App() {
         </span>
         <br></br>
         <br></br>
-        <Stack direction="row" spacing={2} style={{width: "300px", justifyContent: "center", marginLeft: "600px"}}>
+        <Stack direction="row" spacing={2} style={{width: "100%", justifyContent: "center"}}>
           <Button variant="outlined" color="secondary" onClick={() => setAccion(true)}>Opción 1</Button>
           <Button variant="outlined" color="secondary" onClick={() => setAccion(false)}>Opción 2</Button>
         </Stack>
@@ -78,10 +112,14 @@ function App() {
               <br></br>
               <Button variant='contained' color='primary' onClick={() => {convertRegularExpressionToTree()}}>AFN</Button>
               <br></br>
-              {!inputEvalu ?
+              {!toFND ?
               <>
-                  <br></br>
-                 <TextField
+                <br></br>
+                <br></br>
+                <Button variant='contained' color='primary' disabled>AFD</Button>
+                <br></br>
+                <br></br>
+                <TextField
                   hiddenLabel
                   label="Cadena"
                   color='secondary'
@@ -95,9 +133,13 @@ function App() {
               </>
               :
               <>
-                <NodeGraph data={afdgrafica}/>
+                {buildShowGraph()}
+                <Button variant='contained' color='primary' onClick={() => {convertAFNToAFD()}}>AFD</Button>
                 <br></br>
-                <TextField
+                <br></br>
+                {inputEvalu ?
+                <>
+                  <TextField
                   hiddenLabel
                   label="Cadena"
                   color='secondary'
@@ -124,6 +166,22 @@ function App() {
                     <Button onClick={handleClose} color='secondary' variant='outlined'>CERRAR</Button>
                   </DialogActions>
                 </Dialog>
+                </>
+                :
+                <>
+                  <TextField
+                  hiddenLabel
+                  label="Cadena"
+                  color='secondary'
+                  id="input2"
+                  variant="filled"
+                  disabled
+                />
+                <br></br>
+                <br></br>
+                <Button variant='contained' color='primary' disabled>Evaluar</Button>
+                </>
+                }
               </>
               }
             </>
