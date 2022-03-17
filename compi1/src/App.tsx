@@ -14,6 +14,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import { afn_to_afd, convertAFDToD3Graph } from './afn_to_afd';
+import { evaluate_afd } from './evaluate_afd';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -30,17 +31,27 @@ function App() {
   const [afdgrafica, setAfdgrafica] = useState(Object);
   const [inputEvalu, setInputEvalu] = useState(null || Boolean);
   const [toFND, setToFND] = useState(null || Boolean)
+  const [alertEvaluar, setAlertEvaluar] = useState(null || Boolean)
   const [grafica, setGrafica] = useState(Number)
   const [open, setOpen] = React.useState(false);
   const [arbol, setArbol] = React.useState(Object)
 
   const handleClickOpen = () => {
     setOpen(true);
+    evaluateExpressionAFD()
   };
 
   const handleClose = () => {
     setOpen(false);
   };
+
+  let itBelongsText = <></>;
+
+  const evaluateExpressionAFD = () => {
+    const input = (document.getElementById("input2") as HTMLInputElement).value
+    const itBelongs = evaluate_afd(input, arbol);
+    setAlertEvaluar(itBelongs)
+  }
 
   const convertRegularExpressionToTree = () => {
     setInputEvalu(false)
@@ -149,23 +160,46 @@ function App() {
                 <br></br>
                 <br></br>
                 <Button variant='contained' color='primary' onClick={() => handleClickOpen()}>Evaluar</Button>
-                <Dialog
-                  open={open}
-                  TransitionComponent={Transition}
-                  keepMounted
-                  onClose={handleClose}
-                  aria-describedby="alert-dialog-slide-description"
-                >
-                  <DialogTitle style={{color:"green"}}>{"Si"}</DialogTitle>
-                  <DialogContent>
-                    <DialogContentText>
-                      La cadena {<em><strong>{(document.getElementById("input2") as HTMLInputElement).value}</strong></em>} si pertenece a {<em><strong>L(</strong></em>}{<em><strong>{(document.getElementById("input1") as HTMLInputElement).value + ")"}</strong></em>}
-                    </DialogContentText>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleClose} color='secondary' variant='outlined'>CERRAR</Button>
-                  </DialogActions>
-                </Dialog>
+                {alertEvaluar ?
+                <>
+                  <Dialog
+                    open={open}
+                    TransitionComponent={Transition}
+                    keepMounted
+                    onClose={handleClose}
+                    aria-describedby="alert-dialog-slide-description"
+                  >
+                    <DialogTitle style={{color:"green"}}>{"Si"}</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>
+                        La cadena {<em><strong>{(document.getElementById("input2") as HTMLInputElement).value}</strong></em>} si pertenece a {<em><strong>L(</strong></em>}{<em><strong>{(document.getElementById("input1") as HTMLInputElement).value + ")"}</strong></em>}
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleClose} color='secondary' variant='outlined'>CERRAR</Button>
+                    </DialogActions>
+                  </Dialog>
+                </>
+                :
+                <>
+                  <Dialog
+                    open={open}
+                    TransitionComponent={Transition}
+                    keepMounted
+                    onClose={handleClose}
+                    aria-describedby="alert-dialog-slide-description"
+                  >
+                    <DialogTitle style={{color:"red"}}>{"No"}</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>
+                        La cadena {<em><strong>{(document.getElementById("input2") as HTMLInputElement).value}</strong></em>} no pertenece a {<em><strong>L(</strong></em>}{<em><strong>{(document.getElementById("input1") as HTMLInputElement).value + ")"}</strong></em>}
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleClose} color='secondary' variant='outlined'>CERRAR</Button>
+                    </DialogActions>
+                  </Dialog>
+                </>}
                 </>
                 :
                 <>
