@@ -10,6 +10,7 @@ import NodeGraph from './NodeGraph';
 function App() {
   const [accion, setAccion] = useState(null || Boolean);
   const [afdgrafica, setAfdgrafica] = useState(Object);
+  const [inputEvalu, setInputEvalu] = useState(null || Boolean);
 
   const convertRegularExpressionToTree = () => {
     let valor_input = (document.getElementById("input1") as HTMLInputElement).value
@@ -18,13 +19,13 @@ function App() {
     const afn = tree_to_afn(tree, [[], []], 0, 1);
     const d3GraphData = convert_matrix_to_d3_graph(afn);
     setAfdgrafica(d3GraphData)
+    setInputEvalu(true)
   }
     return(
       <div className="App">
-        <h1>Bienvenido por favor escoge que quieres realizar primero</h1>
+        <h1>Bienvenido/a, por favor escoge que quieres realizar</h1>
         <span>
-          <b>Opción 1:</b> A partir del a expresión regular <em><strong>r</strong></em> se construirá un <em><strong>AFN</strong></em>, el cual luego se transformará a un 
-          <em><strong>AFD</strong></em>.
+          <b>Opción 1:</b> A partir del a expresión regular <em><strong>r</strong></em> se construirá un <em><strong>AFN</strong></em>, el cual luego se transformará a un <em><strong>AFD</strong></em>.
         </span>
         <br></br>
         <br></br>
@@ -52,7 +53,37 @@ function App() {
               <br></br>
               <Button variant='contained' color='primary' onClick={() => {convertRegularExpressionToTree()}}>AFN</Button>
               <br></br>
-              <NodeGraph data={afdgrafica}/>
+              {!inputEvalu ?
+              <>
+                  <br></br>
+                 <TextField
+                  hiddenLabel
+                  label="Cadena"
+                  color='secondary'
+                  id="input2"
+                  variant="filled"
+                  disabled
+                />
+                <br></br>
+                <br></br>
+                <Button variant='contained' color='primary' disabled>Evaluar</Button>
+              </>
+              :
+              <>
+                <NodeGraph data={afdgrafica}/>
+                <br></br>
+                <TextField
+                  hiddenLabel
+                  label="Cadena"
+                  color='secondary'
+                  id="input2"
+                  variant="filled"
+                />
+                <br></br>
+                <br></br>
+                <Button variant='contained' color='primary' onClick={() => {alert("hola")}}>Evaluar</Button>
+              </>
+              }
             </>
           :
             <>
