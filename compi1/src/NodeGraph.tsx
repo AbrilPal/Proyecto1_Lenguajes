@@ -24,9 +24,10 @@ class NodeGraph extends React.Component<NodeGraphProps, NodeGraphState> {
                 id="graph-id"
                 data={data}
                 config={{
+                    nodeHighlightBehavior: true,
                     directed: true,
-                    height: 300,
-                    width: 300,
+                    height: 500,
+                    width: 500,
                     node: {
                       labelProperty: "id",
                       renderLabel: false,
@@ -42,7 +43,7 @@ class NodeGraph extends React.Component<NodeGraphProps, NodeGraphState> {
                     link: {
                         renderLabel: true,
                         fontSize: 14,
-                        color: "purple",
+                        color: "purple"
                     }
                   }}
             />
