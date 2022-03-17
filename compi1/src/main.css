@@ -1,0 +1,18 @@
+.graph-node {
+    font-size: 10px;
+    height: 20px;
+    width: 20px;
+    background-color: rgb(252, 251, 204);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.node-initial {
+    background-color: rgb(196, 255, 196);
+}
+
+.node-final {
+    background-color: rgb(253, 196, 196);
+}

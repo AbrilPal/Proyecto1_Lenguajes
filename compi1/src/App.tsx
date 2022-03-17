@@ -3,9 +3,22 @@ import Button from '@mui/material/Button';
 import React, { useState } from 'react';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
+import {re_to_tree} from "./re_to_tree"
+import { convert_matrix_to_d3_graph, tree_to_afn } from './tree_to_afn';
+import NodeGraph from './NodeGraph';
 
 function App() {
   const [accion, setAccion] = useState(null || Boolean);
+  const [afdgrafica, setAfdgrafica] = useState(Object);
+
+  const convertRegularExpressionToTree = () => {
+    let valor_input = (document.getElementById("input1") as HTMLInputElement).value
+    const tree = re_to_tree(valor_input);
+    console.log(tree)
+    const afn = tree_to_afn(tree, [[], []], 0, 1);
+    const d3GraphData = convert_matrix_to_d3_graph(afn);
+    setAfdgrafica(d3GraphData)
+  }
     return(
       <div className="App">
         <h1>Bienvenido por favor escoge que quieres realizar primero</h1>
@@ -32,12 +45,14 @@ function App() {
                 hiddenLabel
                 label="Expresión regular"
                 color='secondary'
-                id="filled-hidden-label-small"
+                id="input1"
                 variant="filled"
               />
               <br></br>
               <br></br>
-              <Button variant='contained' color='primary'>AFN</Button>
+              <Button variant='contained' color='primary' onClick={() => {convertRegularExpressionToTree()}}>AFN</Button>
+              <br></br>
+              <NodeGraph data={afdgrafica}/>
             </>
           :
             <>

@@ -24,7 +24,7 @@ class NodeGraph extends React.Component<NodeGraphProps, NodeGraphState> {
                 data={data}
                 config={{
                     directed: true,
-                    height: 350,
+                    height: 500,
                     node: {
                       labelProperty: "id",
                       renderLabel: false,

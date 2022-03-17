@@ -8,6 +8,7 @@ export interface TreeGraphProps {
 }
  
 export interface TreeGraphState {
+    
 }
  
 class TreeGraph extends React.Component<TreeGraphProps, TreeGraphState> {
