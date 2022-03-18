@@ -1,6 +1,5 @@
 import TreeNode from "./TreeNode";
 
-// Lee la expresion de fin a principio
 export const re_to_tree = (regularExpression: string): TreeNode => {
 
     const lastCharacter = regularExpression[regularExpression.length - 1];
@@ -106,18 +105,18 @@ export const re_to_tree = (regularExpression: string): TreeNode => {
             const concatNode = new TreeNode(2, '', re_to_tree(nextExpression), parenthesisNode);
             return concatNode;
         }
-    } else { // Si es un caracter del lenguaje que no sean operaciones
+    } else {
         const secondLastCharacter = regularExpression[regularExpression.length - 2];
         const characterNode = new TreeNode(0, lastCharacter, null, null);
 
-        if (secondLastCharacter === undefined) { // Si es el ultimo caracter
+        if (secondLastCharacter === undefined) {
             return characterNode;
         } else {
-            if (secondLastCharacter === '|') { // Le sigue un OR
+            if (secondLastCharacter === '|') { 
                 const nextExpression = regularExpression.substring(0, regularExpression.length - 2);
                 const orNode = new TreeNode(1, '', re_to_tree(nextExpression), characterNode);
                 return orNode;
-            } else { // Le sigue un CONCAT
+            } else { 
                 const nextExpression = regularExpression.substring(0, regularExpression.length - 1);
                 const concatNode = new TreeNode(2, '', re_to_tree(nextExpression), characterNode);
                 return concatNode;
@@ -127,7 +126,6 @@ export const re_to_tree = (regularExpression: string): TreeNode => {
 
 }
 
-// Lee la expresion de fin a principio para encontrar la expresion dentro del parentesis
 const get_expr_from_parentheses = (expression: string):string => {
     let closeParenCount = 0;
     let openParenCount = 0;
@@ -142,7 +140,6 @@ const get_expr_from_parentheses = (expression: string):string => {
             openParenCount++;
         }
 
-        // Si ya se cerraron todos los parenetsis dentro de la expresion
         if (closeParenCount === openParenCount) {
             returnExpression = expression.substring(i + 1, expression.length - 1)
             i = -1;

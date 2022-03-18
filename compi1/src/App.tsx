@@ -8,7 +8,6 @@ import { convert_matrix_to_d3_graph, tree_to_afn } from './tree_to_afn';
 import NodeGraph from './NodeGraph';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import { re_to_afd } from './re_to_afd';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -47,12 +46,6 @@ function App() {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const convertRegularExpressionToAFD = () => {
-    setAfddirectografica(re_to_afd((document.getElementById("inputd") as HTMLInputElement).value))
-    setGrafica(2)
-    setAfdDirecto(true)
-  }
 
   const evaluateExpressionAFD = () => {
     const input = (document.getElementById("input2") as HTMLInputElement).value
@@ -95,15 +88,7 @@ function App() {
           <NodeGraph data={afdgrafica}/>
         </div>
       );
-    } else if (grafica === 2) { 
-      console.log(afddirectografica, "ggggg")
-      return (
-        <div>
-          <h6>AFD Directo</h6>
-          <NodeGraph data={afddirectografica}/>
-        </div>
-      );
-    }
+    } 
     return (<div></div>);
   }
     return(
@@ -236,7 +221,7 @@ function App() {
             </>
           :
             <>
-              <h3>opcion 2</h3>
+              {/* <h3>opcion 2</h3>
               <TextField
                 hiddenLabel
                 label="Expresión regular"
@@ -256,7 +241,7 @@ function App() {
               <>
 
               </>
-              }
+              } */}
             </>
           }
         </div>
