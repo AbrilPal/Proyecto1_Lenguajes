@@ -221,27 +221,8 @@ function App() {
             </>
           :
             <>
-              {/* <h3>opcion 2</h3>
-              <TextField
-                hiddenLabel
-                label="Expresión regular"
-                color='secondary'
-                id="inputd"
-                variant="filled"
-              />
-              <br></br>
-              <br></br>
-              <Button variant='contained' color='primary' onClick={() => {convertRegularExpressionToAFD()}}>AFD Directo</Button>
-              <br></br>
-              {afdDirecto ?
-              <>
-                {buildShowGraph()}
-              </>
-              :
-              <>
-
-              </>
-              } */}
+              <h4>Opcion 2</h4>
+              <h4 style={{color:"red"}}>Lo siento esta parte no está</h4>
             </>
           }
         </div>
