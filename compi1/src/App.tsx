@@ -8,6 +8,7 @@ import { convert_matrix_to_d3_graph, tree_to_afn } from './tree_to_afn';
 import NodeGraph from './NodeGraph';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
+import { re_to_afd } from './re_to_afd';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -29,11 +30,13 @@ function App() {
   const [accion, setAccion] = useState(null || Boolean);
   const [afngrafica, setAfngrafica] = useState(Object);
   const [afdgrafica, setAfdgrafica] = useState(Object);
+  const [afddirectografica, setAfddirectografica] = useState(Object);
   const [inputEvalu, setInputEvalu] = useState(null || Boolean);
   const [toFND, setToFND] = useState(null || Boolean)
   const [alertEvaluar, setAlertEvaluar] = useState(null || Boolean)
   const [grafica, setGrafica] = useState(Number)
   const [open, setOpen] = React.useState(false);
+  const [afdDirecto, setAfdDirecto] = React.useState(false);
   const [arbol, setArbol] = React.useState(Object)
 
   const handleClickOpen = () => {
@@ -45,7 +48,11 @@ function App() {
     setOpen(false);
   };
 
-  let itBelongsText = <></>;
+  const convertRegularExpressionToAFD = () => {
+    setAfddirectografica(re_to_afd((document.getElementById("inputd") as HTMLInputElement).value))
+    setGrafica(2)
+    setAfdDirecto(true)
+  }
 
   const evaluateExpressionAFD = () => {
     const input = (document.getElementById("input2") as HTMLInputElement).value
@@ -74,21 +81,29 @@ function App() {
   }
 
   const buildShowGraph = () => {
-    if (grafica === 0) { // Hay arbol sintactico
+    if (grafica === 0) { 
       return (
         <div>
           <h6>AFN</h6>
           <NodeGraph data={afngrafica}/>
         </div>
       );
-    } else if (grafica === 1) { // Hay AFN
+    } else if (grafica === 1) { 
       return (
         <div>
           <h6>AFD</h6>
           <NodeGraph data={afdgrafica}/>
         </div>
       );
-    } 
+    } else if (grafica === 2) { 
+      console.log(afddirectografica, "ggggg")
+      return (
+        <div>
+          <h6>AFD Directo</h6>
+          <NodeGraph data={afddirectografica}/>
+        </div>
+      );
+    }
     return (<div></div>);
   }
     return(
@@ -222,6 +237,26 @@ function App() {
           :
             <>
               <h3>opcion 2</h3>
+              <TextField
+                hiddenLabel
+                label="Expresión regular"
+                color='secondary'
+                id="inputd"
+                variant="filled"
+              />
+              <br></br>
+              <br></br>
+              <Button variant='contained' color='primary' onClick={() => {convertRegularExpressionToAFD()}}>AFD Directo</Button>
+              <br></br>
+              {afdDirecto ?
+              <>
+                {buildShowGraph()}
+              </>
+              :
+              <>
+
+              </>
+              }
             </>
           }
         </div>

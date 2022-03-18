@@ -3,7 +3,6 @@ import TreeNode from "./TreeNode";
 import {areArraysEqual, deleteArrayDuplicates, removeAllOccurencesFromArray, removeAllOccurencesFromItem} from './array_functions';
 import { nextChar } from "./nextChar";
 
-// Se obtendra una tabla de transiciones de tipo objeto, cada llave representa un estado, y dentro de la llave se encuentra otro objeto que contiene informacion del estado (el conjunto que representa, los estados a los que se mueve con las letras ej: e(Mueve(A, a)))
 export const afn_to_afd = (treeNode: TreeNode):any => {
     const afn = tree_to_afn(treeNode, [[], []], 0, 1);
     const languageCharacters = getLanguageCharactersFromTreeNode(treeNode);
@@ -63,7 +62,7 @@ const eClosure = (afn: Array<Array<string|undefined>>, states: Array<number>, al
     let alreadyCheckedCopy: Array<number>  = [...alreadyChecked];
 
     states.forEach((state) => {
-        set = [...set, state]; // Siempre se agrega el estado que se evalua
+        set = [...set, state];
         alreadyCheckedCopy = deleteArrayDuplicates([...alreadyCheckedCopy, ...set])
         let stateSet: Array<number> = [];
 
@@ -72,7 +71,6 @@ const eClosure = (afn: Array<Array<string|undefined>>, states: Array<number>, al
                 stateSet = [...stateSet, index];
             }
         });
-
         stateSet = eClosure(afn, removeAllOccurencesFromArray(stateSet, alreadyChecked), alreadyCheckedCopy);
 
         set = [...set, ...stateSet];
@@ -106,7 +104,6 @@ const move = (afn: Array<Array<string|undefined>>, states: Array<number>, charac
 export const getLanguageCharactersFromTreeNode = (treeNode: TreeNode): Array<string> => {
     let characters: Array<string> = [];
 
-    // Obtener caracteres del lenguaje
     if (treeNode.isLeaf()) {
         characters.push(treeNode.value);
     } else {
@@ -123,7 +120,6 @@ export const getLanguageCharactersFromTreeNode = (treeNode: TreeNode): Array<str
 
     characters = removeAllOccurencesFromItem(characters, 'ε');
 
-    // Eliminar duplicados del array
     let charactersWithoutDuplicates: Array<string> = deleteArrayDuplicates(characters);
 
     return charactersWithoutDuplicates;

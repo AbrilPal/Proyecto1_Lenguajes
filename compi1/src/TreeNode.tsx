@@ -1,14 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { deleteArrayDuplicates } from './array_functions';
-/**
- * type: 
- *      0: id
- *      1: or (|)
- *      2: and (.)
- *      3: Kleene (*)
- *      4: Kleene+ (+)
- *      5: Zero or instance (?)
- */
+
 class TreeNode {
     type: number;
     value: string;
@@ -93,30 +85,29 @@ class TreeNode {
         return `Value: ${this.value}, leftChild: ${this.leftChild !== null ? this.leftChild.value : 'null'}, rightChild: ${this.rightChild !== null ? this.rightChild.value : 'null'}`;
     }
 
-    // -----------------------AFD DIRECT
     setNullable = ():boolean => {
         let nullable = false;
 
-        if (this.isLeaf()) { // type id
+        if (this.isLeaf()) { 
             if (this.value === 'ε') {
                 nullable = true;
             }
             nullable = false;
-        } else if (this.type === 1) { // type |
+        } else if (this.type === 1) { 
             if (this.leftChild !== null && this.rightChild !== null) {
                 nullable = this.leftChild.setNullable() || this.rightChild.setNullable();
             }
-        } else if (this.type === 2) { // type .
+        } else if (this.type === 2) { 
             if (this.leftChild !== null && this.rightChild !== null) {
                 nullable = this.leftChild.setNullable() && this.rightChild.setNullable();
             }
-        } else if (this.type === 3) { // type *
+        } else if (this.type === 3) { 
             nullable = true;
-        } else if (this.type === 4) { // type +
+        } else if (this.type === 4) { 
             if (this.rightChild !== null) {
                 nullable = this.rightChild.setNullable();
             }
-        } else if (this.type === 5) { // type ?
+        } else if (this.type === 5) {
             nullable = true;
         }
 
@@ -154,11 +145,11 @@ class TreeNode {
             if (this.leafId !== null && this.value !== "ε") {
                 primerapos = [this.leafId];
             }
-        } else if (this.type === 1) { // type |
+        } else if (this.type === 1) { 
             if (this.leftChild !== null && this.rightChild !== null) {
                 primerapos = [...this.leftChild.setPrimerapos(), ...this.rightChild.setPrimerapos()];
             }
-        } else if (this.type === 2) { // type .
+        } else if (this.type === 2) { 
             if (this.leftChild !== null && this.rightChild !== null) {
                 if (this.leftChild.nullable) {
                     primerapos = [...this.leftChild.setPrimerapos(), ...this.rightChild.setPrimerapos()];
@@ -167,15 +158,15 @@ class TreeNode {
                     primerapos = [...this.leftChild.setPrimerapos()];
                 }
             }
-        } else if (this.type === 3) { // type *
+        } else if (this.type === 3) { 
             if (this.rightChild !== null) {
                 primerapos = [...this.rightChild.setPrimerapos()];
             }
-        } else if (this.type === 4) { // type +
+        } else if (this.type === 4) { 
             if (this.rightChild !== null) {
                 primerapos = [...this.rightChild.setPrimerapos()];
             }
-        } else if (this.type === 5) { // type ?
+        } else if (this.type === 5) { 
             if (this.rightChild !== null) {
                 primerapos = [...this.rightChild.setPrimerapos()];
             }
@@ -193,11 +184,11 @@ class TreeNode {
             if (this.leafId !== null && this.value !== "ε") {
                 ultimapos = [this.leafId];
             }
-        } else if (this.type === 1) { // type |
+        } else if (this.type === 1) { 
             if (this.leftChild !== null && this.rightChild !== null) {
                 ultimapos = [...this.leftChild.setUltimapos(), ...this.rightChild.setUltimapos()];
             }
-        } else if (this.type === 2) { // type .
+        } else if (this.type === 2) { 
             if (this.leftChild !== null && this.rightChild !== null) {
                 if (this.rightChild.nullable) {
                     ultimapos = [...this.leftChild.setUltimapos(), ...this.rightChild.setUltimapos()];
@@ -206,15 +197,15 @@ class TreeNode {
                     ultimapos = [...this.rightChild.setUltimapos()];
                 }
             }
-        } else if (this.type === 3) { // type *
+        } else if (this.type === 3) {
             if (this.rightChild !== null) {
                 ultimapos = [...this.rightChild.setUltimapos()];
             }
-        } else if (this.type === 4) { // type +
+        } else if (this.type === 4) { 
             if (this.rightChild !== null) {
                 ultimapos = [...this.rightChild.setUltimapos()];
             }
-        } else if (this.type === 5) { // type ?
+        } else if (this.type === 5) { 
             if (this.rightChild !== null) {
                 ultimapos = [...this.rightChild.setUltimapos()];
             }

@@ -1,12 +1,11 @@
 import TreeNode from "./TreeNode";
 
-// Devuelve una matriz de transiciones entre nodos, si existe una transicion del estado 0 al 1 se obtendra de la siguiente manera: matriz[0][1]
 export const tree_to_afn = (treeNode: TreeNode, links:Array<Array<string|undefined>>, initialState: number, finalState: number):Array<Array<string|undefined>> => {
     let newLinks = [...links];
 
     if (treeNode.isLeaf()) {
         newLinks[initialState][finalState] = treeNode.value;
-    } else if (treeNode.type === 2) { // Si es concatenacion
+    } else if (treeNode.type === 2) { 
         newLinks = addStateToLinks(newLinks);
         const concatNodeState = newLinks.length - 1;
 
@@ -18,29 +17,23 @@ export const tree_to_afn = (treeNode: TreeNode, links:Array<Array<string|undefin
             newLinks = tree_to_afn(treeNode.rightChild, newLinks, concatNodeState, finalState);
         }
     } else if (treeNode.type === 1) {
-        // State R1Left (top left)
         newLinks = addStateToLinks(newLinks);
         const r1LeftState = newLinks.length - 1;
 
-        // State R1Right (top right)
         newLinks = addStateToLinks(newLinks);
         const r1RightState = newLinks.length - 1;
 
-        // State R2Left (bottom left)
         newLinks = addStateToLinks(newLinks);
         const r2LeftState = newLinks.length - 1;
 
-        // State R2Right (bottom right)
         newLinks = addStateToLinks(newLinks);
         const r2RightState = newLinks.length - 1;
 
-        // Agregar transiciones ε (zero, ε)
         newLinks[initialState][r1LeftState] = 'ε';
         newLinks[initialState][r2LeftState] = 'ε';
         newLinks[r1RightState][finalState] = 'ε';
         newLinks[r2RightState][finalState] = 'ε';
 
-        // Agregar expresiones
         if (treeNode.leftChild !== null) {
             newLinks = tree_to_afn(treeNode.leftChild, newLinks, r1LeftState, r1RightState);
         }
@@ -49,57 +42,45 @@ export const tree_to_afn = (treeNode: TreeNode, links:Array<Array<string|undefin
             newLinks = tree_to_afn(treeNode.rightChild, newLinks, r2LeftState, r2RightState);
         }
     } else if (treeNode.type === 3) {
-        // State RLeft (left)
         newLinks = addStateToLinks(newLinks);
         const rLeftState = newLinks.length - 1;
         
-        // State RRight (right)
         newLinks = addStateToLinks(newLinks);
         const rRightState = newLinks.length - 1;
 
-        // Agregar transiciones ε (zero, ε)
         newLinks[initialState][rLeftState] = 'ε';
         newLinks[initialState][finalState] = 'ε';
         newLinks[rRightState][finalState] = 'ε';
         newLinks[rRightState][rLeftState] = 'ε';
 
-        // Agregar expresiones
         if (treeNode.rightChild !== null) {
             newLinks = tree_to_afn(treeNode.rightChild, newLinks, rLeftState, rRightState);
         }
     } else if (treeNode.type === 4) {
-        // State R (expresion)
         newLinks = addStateToLinks(newLinks);
         const rState = newLinks.length - 1;
         
-        // State self loop (expresion)
         newLinks = addStateToLinks(newLinks);
         const rSelfLoopState = newLinks.length - 1;
 
-        // Agregar transiciones ε (zero, ε)
         newLinks[initialState][rState] = 'ε';
         newLinks[rState][finalState] = 'ε';
         newLinks[rSelfLoopState][rState] = 'ε';
 
-        // Agregar expresion R
         if (treeNode.rightChild !== null) {
             newLinks = tree_to_afn(treeNode.rightChild, newLinks, rState, rSelfLoopState);
         }
     } else if (treeNode.type === 5) {
-        // State R1Left (top left)
         newLinks = addStateToLinks(newLinks);
         const r1LeftState = newLinks.length - 1;
 
-        // State R1Right (top right)
         newLinks = addStateToLinks(newLinks);
         const r1RightState = newLinks.length - 1;
 
-        // Agregar transiciones ε (zero, ε)
         newLinks[initialState][finalState] = 'ε';
         newLinks[initialState][r1LeftState] = 'ε';
         newLinks[r1RightState][finalState] = 'ε';
 
-        // Agregar expresion R
         if (treeNode.rightChild !== null) {
             newLinks = tree_to_afn(treeNode.rightChild, newLinks, r1LeftState, r1RightState);
         }
@@ -112,10 +93,8 @@ export const tree_to_afn = (treeNode: TreeNode, links:Array<Array<string|undefin
 const addStateToLinks = (links:Array<Array<string|undefined>>): Array<Array<string|undefined>> => {
     let newLinks = [...links];
 
-    // Agregar estado
     newLinks = [...newLinks, []]
 
-    // Agregar nuevas transiciones vacias a nodos
     newLinks.forEach((node, i) => {
         newLinks[i][newLinks.length - 1] = undefined;
     });
